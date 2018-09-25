@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.*;
+import java.util.*;
 
 public class TextFileTest {
     public static void main(String[] args) throws IOException {
@@ -12,6 +13,13 @@ public class TextFileTest {
         try (PrintWriter out = new PrintWriter("employee.dat", "UTF-8")) {
             writeData(staff, out);
         }
+
+        try (Scanner in = new Scanner(new FileInputStream("employee.dat"), "UTF-8")) {
+            Employee[] newStaff = readData(in);
+
+            for (var e : newStaff)
+                System.out.println(e);
+        }
     }
 
     private static void writeData(Employee[] employees, PrintWriter out) {
@@ -23,6 +31,31 @@ public class TextFileTest {
 
     public static void writeEmployee(PrintWriter out, Employee e) {
         out.println(e.getName() + "|" + e.getSalary() + "|" + e.getHireDay());
+    }
+
+    private static Employee[] readData(Scanner in) {
+        int n = in.nextInt();
+        in.nextLine();
+
+        Employee[] employees = new Employee[n];
+        for (int i = 0; i < n; i++) {
+            employees[i] = readEmployee(in);
+        }
+
+        return employees;
+    }
+
+    public static Employee readEmployee(Scanner in) {
+        String line = in.nextLine();
+        String[] tokens = line.split("\\|");
+        String name = tokens[0];
+        double salary = Double.parseDouble(tokens[1]);
+        LocalDate hireDate = LocalDate.parse(tokens[2]);
+        int year = hireDate.getYear();
+        int month = hireDate.getMonthValue();
+        int day = hireDate.getDayOfMonth();
+
+        return new Employee(name, salary, year, month, day);
     }
 }
 
