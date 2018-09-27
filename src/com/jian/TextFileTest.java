@@ -19,8 +19,7 @@ public class TextFileTest {
         try (Scanner in = new Scanner(new FileInputStream("employee.dat"), "UTF-8")) {
             Employee[] newStaff = readData(in);
 
-            for (var e : newStaff)
-                System.out.println(e);
+            Arrays.stream(newStaff).forEach(System.out::println);
         }
     }
 

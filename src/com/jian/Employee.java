@@ -3,8 +3,14 @@ package com.jian;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-class Employee implements Serializable {
+public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public static final int NAME_SIZE = 40;
+    public static final int RECORD_SIZE = 2 * NAME_SIZE + 8 + 4 + 4 + 4;
+
+    int foo;
+    char ch;
     private String name;
     private double salary;
     private LocalDate hireDay;
